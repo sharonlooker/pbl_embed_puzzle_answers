@@ -19,6 +19,7 @@ module LookerEmbedClient
     last_name = "McQuizFace"
     permissions = ['see_user_dashboards', 'see_lookml_dashboards', 'access_data', 'see_looks']
     group_ids = [40]
+    external_group_id = "My Fake Company"
     models = ['cs_module_pbl']
     user_attributes = {"brand_pbl" => "Columbia", "state_pbl" => "California"}
     access_filters = {}
@@ -41,6 +42,7 @@ module LookerEmbedClient
     json_permissions        = permissions.to_json
     json_models             = models.to_json
     json_group_ids          = group_ids.to_json
+    json_external_group_id  = external_group_id.to_json
     json_user_attributes    = user_attributes.to_json
     json_access_filters     = access_filters.to_json
 
@@ -56,7 +58,7 @@ module LookerEmbedClient
     # compute signature
     string_to_sign  = [host, embed_path, json_nonce, json_time,
                        json_session_length,json_external_user_id, json_permissions,
-                       json_models,json_group_ids, json_user_attributes, json_access_filters].join("\n")
+                       json_models,json_group_ids, json_external_group_id, json_user_attributes, json_access_filters].join("\n")
 
     signature = Base64.encode64(
                    OpenSSL::HMAC.digest(
@@ -75,6 +77,7 @@ module LookerEmbedClient
       access_filters:      json_access_filters,
       user_attributes:     json_user_attributes,
       group_ids:           json_group_ids,
+      external_group_id:   json_external_group_id,
       first_name:          json_first_name,
       last_name:           json_last_name,
       force_logout_login:  json_force_logout_login,
